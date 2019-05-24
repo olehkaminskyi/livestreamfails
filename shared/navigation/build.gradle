@@ -1,21 +1,20 @@
-apply plugin: 'com.android.application'
-
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    def major = 0
-    def minor = 0
-    def patch = 0
-
     compileSdkVersion compileSdk
+
+
     defaultConfig {
-        applicationId "olehakaminskyi.livestreamfails"
         minSdkVersion minSdk
         targetSdkVersion targetSdk
         versionCode 1
-        versionName "$major.$minor.$patch"
+        versionName "1.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -25,13 +24,8 @@ android {
 }
 
 dependencies {
-    implementation project(":shared:navigation")
-    implementation project(":shared:presentation")
-    implementation project(":onboarding:feature-onboarding")
-    implementation project(":videos:feature-videos")
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation navigationDependencies.values()
     implementation kotlinDependecies.values()
-    implementation appCompatDependencies.values()
+    implementation navigationDependencies.values()
     testImplementation testDependencies.values()
 }

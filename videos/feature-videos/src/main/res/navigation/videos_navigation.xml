@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@id/videos_navigation"
+            app:startDestination="@+id/videos">
+    <fragment android:id="@+id/videos"
+              android:name="olehakaminskyi.livestreamfails.presentation.videos.VideosFragment"
+              tools:layout="@layout/fragment_videos"/>
+</navigation>

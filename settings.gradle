@@ -1,1 +1,4 @@
 include ':app'
+include 'shared:navigation', 'shared:presentation'
+include 'videos:feature-videos'
+include 'onboarding:feature-onboarding'

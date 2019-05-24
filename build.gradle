@@ -22,7 +22,9 @@ buildscript {
 }
 
 allprojects {
-    apply plugin: "org.jlleitschuh.gradle.ktlint"
+    apply from: "${project.rootProject.rootDir}/config.gradle"
+    apply from: "${project.rootProject.rootDir}/dependencies.gradle"
+    apply plugin: 'org.jlleitschuh.gradle.ktlint'
 
     ktlint {
         android.set(true)

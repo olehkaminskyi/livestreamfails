@@ -10,10 +10,21 @@ ext {
     ]
 
     def appCompat = '1.0.2'
-    def constraintLayout = '1.1.3'
-    presentationDependencies = [
+    appCompatDependencies = [
             appCompat        : "androidx.appcompat:appcompat:$appCompat",
-            ktxCore          : "androidx.core:core-ktx:$appCompat",
-            constraintLayout : "androidx.constraintlayout:constraintlayout:$constraintLayout"
+            ktxCore          : "androidx.core:core-ktx:$appCompat"
+    ]
+
+    def constraintLayout = '1.1.3'
+    def material = '1.0.0'
+    appCompatWidgetsDependencies = [
+        constraintLayout : "androidx.constraintlayout:constraintlayout:$constraintLayout",
+        materialDesign   : "com.google.android.material:material:$material"
+    ]
+
+    def navigation = "2.0.0"
+    navigationDependencies = [
+            navfationFragment: "androidx.navigation:navigation-fragment-ktx:$navigation",
+            navfationUi: "androidx.navigation:navigation-ui-ktx:$navigation"
     ]
 }

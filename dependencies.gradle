@@ -1,0 +1,19 @@
+ext {
+
+    kotlinDependecies = [
+            stdlib : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    ]
+
+    def junitVersion = '4.12'
+    testDependencies = [
+            junit : "junit:junit:$junitVersion"
+    ]
+
+    def appCompat = '1.0.2'
+    def constraintLayout = '1.1.3'
+    presentationDependencies = [
+            appCompat        : "androidx.appcompat:appcompat:$appCompat",
+            ktxCore          : "androidx.core:core-ktx:$appCompat",
+            constraintLayout : "androidx.constraintlayout:constraintlayout:$constraintLayout"
+    ]
+}

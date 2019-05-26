@@ -1,18 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion compileSdk
-
 
     defaultConfig {
         minSdkVersion minSdk
         targetSdkVersion targetSdk
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -28,6 +26,9 @@ dependencies {
     implementation project(':shared:navigation')
     implementation project(':shared:presentation')
 
+    implementation lifeCycleDependencies.values()
+    implementation coroutinesDependencies.values()
+    implementation koinDependencies.values()
     implementation navigationDependencies.values()
     implementation kotlinDependecies.values()
     implementation appCompatDependencies.values()

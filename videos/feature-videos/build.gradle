@@ -1,9 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion compileSdk
-
 
     defaultConfig {
         minSdkVersion minSdk
@@ -21,16 +22,39 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    androidExtensions {
+        experimental = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':shared:navigation')
     implementation project(':shared:presentation')
+    implementation project(':shared:player')
+    implementation project(':shared:domain')
+    implementation project(':videos:domain-videos')
+    implementation project(':videos:domaininjection-videos')
 
+    implementation lifeCycleDependencies.values()
+    implementation coroutinesDependencies.values()
+    implementation picassoDependencies.values()
+    implementation koinDependencies.values()
     implementation navigationDependencies.values()
     implementation kotlinDependecies.values()
     implementation appCompatDependencies.values()
     implementation appCompatWidgetsDependencies.values()
+    implementation picassoDependencies.values()
+    implementation exoplayerDependencies.values()
+
+    kapt lifeCycleCompiler
+
+    testImplementation project(':shared:tests')
     testImplementation testDependencies.values()
 }

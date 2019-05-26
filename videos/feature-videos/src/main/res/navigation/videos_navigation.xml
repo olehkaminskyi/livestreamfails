@@ -3,8 +3,8 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@id/videos_navigation"
-            app:startDestination="@+id/videos">
+            app:startDestination="@+id/videos" tools:ignore="UnusedNavigation">
     <fragment android:id="@+id/videos"
-              android:name="olehakaminskyi.livestreamfails.presentation.videos.VideosFragment"
+              android:name="olehakaminskyi.livestreamfails.presentation.videos.posts.VideoPostsFragment"
               tools:layout="@layout/fragment_videos"/>
 </navigation>

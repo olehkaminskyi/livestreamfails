@@ -1,9 +1,9 @@
-package olehakaminskyi.livestreamfails
+package olehakaminskyi.livestreamfails.presentation
 
 import android.os.Bundle
 import androidx.navigation.NavController
+import olehakaminskyi.livestreamfails.R
 import olehakaminskyi.livestreamfails.navigation.NavHostContainer
-import olehakaminskyi.livestreamfails.presentation.BaseActivity
 
 class MainActivity : BaseActivity(), NavHostContainer {
     override lateinit var navigationController: NavController

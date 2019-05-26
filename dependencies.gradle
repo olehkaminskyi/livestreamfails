@@ -4,9 +4,17 @@ ext {
             stdlib : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     ]
 
-    def junitVersion = '4.12'
+    def junit = '4.12'
+    def mockitoKotlin = '2.1.0'
+    def mockito = '2.27.0'
+    def coroutinesTest = '1.2.1'
+    def coreTesting = '2.1.0-beta01'
     testDependencies = [
-            junit : "junit:junit:$junitVersion"
+            coroutinesTest : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTest",
+            junit          : "junit:junit:$junit",
+            mockitoCore    : "org.mockito:mockito-core:$mockito",
+            mockitoKotlin  : "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlin",
+            coreTesting    : "androidx.arch.core:core-testing:$coreTesting"
     ]
 
     def appCompat = '1.0.2'
@@ -17,14 +25,47 @@ ext {
 
     def constraintLayout = '1.1.3'
     def material = '1.0.0'
+    def viewpager2 = '1.0.0-alpha04'
     appCompatWidgetsDependencies = [
         constraintLayout : "androidx.constraintlayout:constraintlayout:$constraintLayout",
-        materialDesign   : "com.google.android.material:material:$material"
+        materialDesign   : "com.google.android.material:material:$material",
+        viewpager2       : "androidx.viewpager2:viewpager2:$viewpager2"
     ]
 
-    def navigation = "2.0.0"
+    def navigation = '2.0.0'
     navigationDependencies = [
-            navfationFragment: "androidx.navigation:navigation-fragment-ktx:$navigation",
-            navfationUi: "androidx.navigation:navigation-ui-ktx:$navigation"
+            navfationFragment : "androidx.navigation:navigation-fragment-ktx:$navigation",
+            navfationUi       : "androidx.navigation:navigation-ui-ktx:$navigation"
+    ]
+
+    def coroutines = '1.2.1'
+    coroutinesDependencies = [
+            core              : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
+            coroutinesAndroid : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    ]
+
+    def exoplayer = '2.9.6'
+    exoplayerDependencies = [
+            core : "com.google.android.exoplayer:exoplayer-core:$exoplayer",
+            ui   : "com.google.android.exoplayer:exoplayer-ui:$exoplayer"
+    ]
+
+    def koin = '2.0.0-GA6'
+    koinDependencies = [
+            viewmodel : "org.koin:koin-android-viewmodel:$koin",
+            core      : "org.koin:koin-android:$koin"
+    ]
+
+    def lifeCycle = '2.2.0-alpha01'
+    lifeCycleDependencies = [
+            extentions : "androidx.lifecycle:lifecycle-extensions:$lifeCycle",
+            viewModel  : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifeCycle",
+            runtime    : "androidx.lifecycle:lifecycle-runtime-ktx:$lifeCycle"
+    ]
+    lifeCycleCompiler = "androidx.lifecycle:lifecycle-compiler:$lifeCycle"
+
+    def picasso = '2.71828'
+    picassoDependencies = [
+            picasso: "com.squareup.picasso:picasso:$picasso"
     ]
 }

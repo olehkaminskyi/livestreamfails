@@ -8,6 +8,7 @@ android {
     def patch = 0
 
     compileSdkVersion compileSdk
+
     defaultConfig {
         applicationId "olehakaminskyi.livestreamfails"
         minSdkVersion minSdk
@@ -16,11 +17,17 @@ android {
         versionName "$major.$minor.$patch"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -30,6 +37,7 @@ dependencies {
     implementation project(":onboarding:feature-onboarding")
     implementation project(":videos:feature-videos")
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation koinDependencies['core']
     implementation navigationDependencies.values()
     implementation kotlinDependecies.values()
     implementation appCompatDependencies.values()

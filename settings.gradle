@@ -1,4 +1,4 @@
 include ':app'
-include 'shared:navigation', 'shared:presentation'
-include 'videos:feature-videos'
+include 'shared:navigation', 'shared:presentation', 'shared:player', 'shared:domain', 'shared:tests'
+include 'videos:feature-videos', 'videos:data-videos', 'videos:domain-videos', 'videos:domaininjection-videos'
 include 'onboarding:feature-onboarding'

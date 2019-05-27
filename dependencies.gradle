@@ -68,4 +68,9 @@ ext {
     picassoDependencies = [
             picasso: "com.squareup.picasso:picasso:$picasso"
     ]
+
+    def jsoup = '1.12.1'
+    jsoupDependencies = [
+            jsoup: "org.jsoup:jsoup:$jsoup"
+    ]
 }

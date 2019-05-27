@@ -25,11 +25,12 @@ android {
 
 dependencies {
     implementation project(':shared:domain')
-    implementation project(':videos:domain-videos')
-    implementation project(':videos:remote-videos')
+    implementation project(':shared:remote')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation kotlinDependecies.values()
     implementation koinDependencies['core']
+    implementation jsoupDependencies.values()
     implementation navigationDependencies.values()
+    implementation coroutinesDependencies.values()
     testImplementation testDependencies.values()
 }

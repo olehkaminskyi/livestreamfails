@@ -2,18 +2,15 @@ package olehakaminskyi.livestreamfails.domain.videos
 
 import olehakaminskyi.livestreamfails.domain.DataResult
 import olehakaminskyi.livestreamfails.domain.videos.entities.Video
+import olehakaminskyi.livestreamfails.remote.videos.RemoteVideosDataSource
+import olehakaminskyi.livestreamfails.remote.videos.entities.RemoteVideo
 
-class VideosRepositoryImplementation : VideosRepository {
+class VideosRepositoryImplementation(
+    private val _remoteDataSource: RemoteVideosDataSource
+) : VideosRepository {
 
-    override suspend fun getVideoForPost(videoPostId: Long): DataResult<Video> = DataResult(
-        Video(testUrls[((videoPostId - 1) % testUrls.size).toInt()])
-    )
+    override suspend fun getVideoForPost(videoPostId: Long): DataResult<Video> =
+        _remoteDataSource.getVideoUrlByPostId(videoPostId).map { it.toDomain() }
 
-    companion object {
-        val testUrls = arrayOf(
-            "https://stream.livestreamfails.com/video/5ce21b4041b4e.mp4",
-            "https://stream.livestreamfails.com/video/5ce47e07697a3.mp4",
-            "https://stream.livestreamfails.com/video/5ce468b36ee08.mp4"
-        )
-    }
+    private fun RemoteVideo.toDomain() = Video(url)
 }

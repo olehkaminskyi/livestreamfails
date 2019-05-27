@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import olehakaminskyi.livestreamfails.domain.videos.VideosRepository
 import olehakaminskyi.livestreamfails.player.UrlSource
@@ -50,6 +51,7 @@ class VideoItemViewModel(
     }
 
     fun stop() {
+        viewModelScope.cancel()
         _videoPlayer.stop()
     }
 

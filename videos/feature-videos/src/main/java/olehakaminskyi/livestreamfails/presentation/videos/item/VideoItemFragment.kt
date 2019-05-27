@@ -25,11 +25,11 @@ class VideoItemFragment : BaseVideosFeatureFragment(), View.OnAttachStateChangeL
     private val _loadingStateChangeObserver: Observer<LoadingState> = Observer { when (it) {
         LoadingState.Loading -> {
             videoThumbnail.visibility = VISIBLE
-            videoPlayerView.visibility = INVISIBLE
+            videoPlayerView.alpha = 0F
         }
         LoadingState.Ready -> {
             videoThumbnail.visibility = INVISIBLE
-            videoPlayerView.visibility = VISIBLE
+            videoPlayerView.alpha = 1F
         }
         is LoadingState.Error -> { }
     } }

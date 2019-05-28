@@ -27,9 +27,9 @@ dependencies {
     implementation project(':shared:domain')
     implementation project(':videos:domain-videos')
     implementation project(':videos:remote-videos')
+    implementation project(':videos:local-videos')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation kotlinDependecies.values()
     implementation koinDependencies['core']
-    implementation navigationDependencies.values()
     testImplementation testDependencies.values()
 }

@@ -30,7 +30,6 @@ dependencies {
     implementation kotlinDependecies.values()
     implementation koinDependencies['core']
     implementation jsoupDependencies.values()
-    implementation navigationDependencies.values()
     implementation coroutinesDependencies.values()
     testImplementation testDependencies.values()
 }

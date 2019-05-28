@@ -1,6 +1,6 @@
 package olehakaminskyi.livestreamfails.presentation.videos
 
-import olehakaminskyi.livestreamfails.domaininjection.videos.KoinDomainVideoModules
+import olehakaminskyi.livestreamfails.domaininjection.videos.KoinDomainVideosModules
 import olehakaminskyi.livestreamfails.player.injection.KainPlayerModules
 import olehakaminskyi.livestreamfails.presentation.BaseFragment
 import olehakaminskyi.livestreamfails.presentation.videos.item.VideoItemViewModel
@@ -13,10 +13,10 @@ open class BaseVideosFeatureFragment : BaseFragment() {
     companion object {
         init {
             loadKoinModules(
-                *KoinDomainVideoModules,
+                *KoinDomainVideosModules,
                 *KainPlayerModules,
                 module {
-                    viewModel { VideoPostsViewModel(get(), get()) }
+                    viewModel { VideoPostsViewModel(get()) }
                     viewModel { (id: Long) -> VideoItemViewModel(get(), get(), id) }
                 }
             )

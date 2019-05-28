@@ -22,16 +22,26 @@ class VideoItemFragment : BaseVideosFeatureFragment(), View.OnAttachStateChangeL
     private val _videoPost: UiVideoPost by lazy { arguments!!.getParcelable(POST) as UiVideoPost }
     private val _viewModel: VideoItemViewModel by viewModel { parametersOf(_videoPost.id) }
     private val _videoPlayer: Player by inject()
-    private val _loadingStateChangeObserver: Observer<LoadingState> = Observer { when (it) {
+    private val _loadingStateChangeObserver: Observer<LoadingState> = Observer {
+        when (it) {
         LoadingState.Loading -> {
-            videoThumbnail.visibility = VISIBLE
             videoPlayerView.alpha = 0F
+            videoThumbnail.visibility = VISIBLE
+            progress.visibility = VISIBLE
+            errorText.visibility = INVISIBLE
         }
         LoadingState.Ready -> {
-            videoThumbnail.visibility = INVISIBLE
             videoPlayerView.alpha = 1F
+            videoThumbnail.visibility = INVISIBLE
+            progress.visibility = INVISIBLE
+            errorText.visibility = INVISIBLE
         }
-        is LoadingState.Error -> { }
+        is LoadingState.Error -> {
+            videoPlayerView.alpha = 0F
+            videoThumbnail.visibility = VISIBLE
+            progress.visibility = INVISIBLE
+            errorText.visibility = VISIBLE
+        }
     } }
     private val _readyToPlayObserver: Observer<Boolean> = Observer { if (it) _viewModel.play() }
 
@@ -50,6 +60,16 @@ class VideoItemFragment : BaseVideosFeatureFragment(), View.OnAttachStateChangeL
         view.addOnAttachStateChangeListener(this)
     }
 
+    override fun onPause() {
+        super.onPause()
+        _viewModel.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        _viewModel.resume()
+    }
+
     override fun onViewDetachedFromWindow(v: View?) {
         videoPlayerView.player = null
         _viewModel.loadingState.removeObserver(_loadingStateChangeObserver)
@@ -66,11 +86,6 @@ class VideoItemFragment : BaseVideosFeatureFragment(), View.OnAttachStateChangeL
     override fun onDestroyView() {
         super.onDestroyView()
         view?.removeOnAttachStateChangeListener(this)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        videoPlayerView.player = _videoPlayer
     }
 
     companion object {

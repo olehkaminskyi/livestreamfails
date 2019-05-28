@@ -73,4 +73,12 @@ ext {
     jsoupDependencies = [
             jsoup: "org.jsoup:jsoup:$jsoup"
     ]
+
+    def room = '2.1.0-beta01'
+    roomDependencies = [
+            'roomRuntime' : "androidx.room:room-runtime:$room",
+            'roomKtx'     : "androidx.room:room-ktx:$room"
+    ]
+
+    roomCompiler = "androidx.room:room-compiler:$room"
 }

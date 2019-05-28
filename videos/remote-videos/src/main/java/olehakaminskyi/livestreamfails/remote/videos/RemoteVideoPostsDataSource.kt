@@ -33,13 +33,13 @@ internal class RemoteVideoPostsDataSourceImpl : BaseRemoteDataSource(), RemoteVi
                     }
                     .let {
                         if (it.isEmpty()) {
-                            DataResult(ResultError(ErrorType.Unknown))
+                            DataResult(error = ResultError(ErrorType.NoData))
                         } else {
                             DataResult(it)
                         }
                     }
             } catch (e: IOException) {
-                DataResult<List<RemoteVideoPost>>(ResultError(ErrorType.NoConnection, e))
+                DataResult<List<RemoteVideoPost>>(error = ResultError(ErrorType.NoConnection, e))
             }
         }
 }

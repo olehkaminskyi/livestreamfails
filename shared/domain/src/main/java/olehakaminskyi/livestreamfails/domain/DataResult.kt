@@ -1,20 +1,17 @@
 package olehakaminskyi.livestreamfails.domain
 
-open class DataResult<T> private constructor(val data: T? = null, val error: ResultError?) {
-
-    constructor(value: T) : this(value, null)
-    constructor(error: ResultError) : this(null, error)
+open class DataResult<T> constructor(val data: T? = null, val error: ResultError? = null) {
 
     val isSuccessful: Boolean
         get() = error == null
 
-    fun success(successFunction: (T) -> Unit): DataResult<T> = this.apply {
+    fun success(successFunction: (T) -> Unit): DataResult<T> = apply {
         if (data != null) {
             successFunction(data)
         }
     }
 
-    fun error(errorFunction: (ResultError) -> Unit): DataResult<T> = this.apply {
+    fun error(errorFunction: (ResultError) -> Unit): DataResult<T> = apply {
         if (error != null) {
             errorFunction(error)
         }
@@ -27,6 +24,7 @@ open class DataResult<T> private constructor(val data: T? = null, val error: Res
 sealed class ErrorType {
     object NoConnection : ErrorType()
     object Unknown : ErrorType()
+    object NoData : ErrorType()
 }
 
-data class ResultError(val error: ErrorType, val cause: Throwable? = null)
+data class ResultError(val type: ErrorType, val cause: Throwable? = null)

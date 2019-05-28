@@ -27,6 +27,5 @@ dependencies {
     implementation project(':shared:domain')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation kotlinDependecies.values()
-    implementation navigationDependencies.values()
     testImplementation testDependencies.values()
 }

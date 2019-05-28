@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error">Error occurred</string>
+    <string name="no_connection_error">No connection</string>
+    <string name="refresh">Refresh</string>
+    <string name="no_data">End of the list</string>
+    <string name="cannot_load_video">Cannot load video, please check your network connection</string>
+</resources>

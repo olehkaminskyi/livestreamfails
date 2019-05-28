@@ -2,6 +2,7 @@ package olehakaminskyi.livestreamfails.presentation.videos.item
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.never
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify
@@ -48,10 +49,6 @@ class VideoItemViewModelTest {
     }
 
     @Test
-    fun getLoadingState() = runBlockingTest {
-    }
-
-    @Test
     fun getReadyToPlay_loadError() = runBlockingTest {
         val errorResult = DataResult<Video>(error = ResultError(ErrorType.Unknown))
         whenever(videosRepository.getVideoForPost(postItemId)).doReturn(errorResult)
@@ -87,8 +84,47 @@ class VideoItemViewModelTest {
 
     @Test
     fun stop() = runBlockingTest {
+        val video = Video("videoUrl")
+        val successResult = DataResult(video)
+        whenever(videosRepository.getVideoForPost(postItemId)).doReturn(successResult)
+        viewModel.readyToPlay.assertNotEmpty()
+
+        viewModel.stop()
+        verify(videoPlayerController, never()).stop()
+
+        viewModel.onStateChanged(UrlSource(video.url), VideoPlayerController.State.Ready)
         viewModel.stop()
         verify(videoPlayerController, times(1)).stop()
+    }
+
+    @Test
+    fun pause() = runBlockingTest {
+        val video = Video("videoUrl")
+        val successResult = DataResult(video)
+        whenever(videosRepository.getVideoForPost(postItemId)).doReturn(successResult)
+        viewModel.readyToPlay.assertNotEmpty()
+
+        viewModel.pause()
+        verify(videoPlayerController, never()).pause()
+
+        viewModel.onStateChanged(UrlSource(video.url), VideoPlayerController.State.Ready)
+        viewModel.pause()
+        verify(videoPlayerController, times(1)).pause()
+    }
+
+    @Test
+    fun resume() = runBlockingTest {
+        val video = Video("videoUrl")
+        val successResult = DataResult(video)
+        whenever(videosRepository.getVideoForPost(postItemId)).doReturn(successResult)
+        viewModel.readyToPlay.assertNotEmpty()
+
+        viewModel.resume()
+        verify(videoPlayerController, never()).resume()
+
+        viewModel.onStateChanged(UrlSource(video.url), VideoPlayerController.State.Ready)
+        viewModel.resume()
+        verify(videoPlayerController, times(1)).resume()
     }
 
     @Test
@@ -118,10 +154,6 @@ class VideoItemViewModelTest {
         viewModel.readyToPlay.assertValue(true)
         viewModel.loadingState.assertValue(LoadingState.Loading)
 
-        viewModel.onStateChanged(currentUrlSource, VideoPlayerController.State.Buffering)
-        viewModel.loadingState.assertValue(LoadingState.Buffering)
-        viewModel.readyToPlay.assertValue(false)
-
         viewModel.onStateChanged(currentUrlSource, VideoPlayerController.State.Ready)
         viewModel.loadingState.assertValue(LoadingState.Ready)
         viewModel.readyToPlay.assertValue(false)
@@ -134,11 +166,5 @@ class VideoItemViewModelTest {
             VideoPlayerController.State.Error("error message"))
         viewModel.loadingState.assertValue(LoadingState.Error(ErrorCause.PLAYBACK))
         viewModel.readyToPlay.assertValue(false)
-
-        viewModel.onStateChanged(currentUrlSource, VideoPlayerController.State.Idle)
-        viewModel.loadingState.assertValue(LoadingState.Loading)
-        viewModel.readyToPlay.assertValue(true)
-
-        viewModel.readyToPlay.assertValue(true)
     }
 }

@@ -26,6 +26,5 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation kotlinDependecies.values()
-    implementation navigationDependencies.values()
     testImplementation testDependencies.values()
 }

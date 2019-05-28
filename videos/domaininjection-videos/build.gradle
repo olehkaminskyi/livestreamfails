@@ -30,6 +30,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation kotlinDependecies.values()
     implementation koinDependencies['core']
-    implementation navigationDependencies.values()
     testImplementation testDependencies.values()
 }

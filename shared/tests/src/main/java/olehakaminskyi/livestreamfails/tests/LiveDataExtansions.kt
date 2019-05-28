@@ -50,7 +50,7 @@ class Verifier<T> (vararg values: T, private val liveData: LiveData<T>) {
     fun verify() {
         liveData.removeObserver(_observer)
         Assert.assertEquals(_values.size, _emitted.size)
-        (0.._values.lastIndex).forEach { Assert.assertEquals(_emitted[it], _values[it]) }
+        (0.._values.lastIndex).forEach { Assert.assertEquals(_values[it], _emitted[it]) }
     }
 }
 

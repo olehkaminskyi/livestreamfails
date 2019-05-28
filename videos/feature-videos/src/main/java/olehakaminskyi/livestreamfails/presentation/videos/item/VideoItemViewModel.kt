@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import olehakaminskyi.livestreamfails.domain.videos.VideosRepository
 import olehakaminskyi.livestreamfails.player.UrlSource
@@ -16,16 +16,18 @@ class VideoItemViewModel(
     private val _videoPostId: Long
 ) : ViewModel(), VideoPlayerController.Listener {
 
+    private var _dataFetchJob: Job? = null
+    private var _isPlayingCurrent = false
     private var _videoSource: UrlSource? = null
-    private val isLoaded get() = _videoSource != null
+    private val _isLoaded get() = _videoSource != null
 
     private val _loadingStateLiveData = MutableLiveData<LoadingState>()
     val loadingState: LiveData<LoadingState> get() = _loadingStateLiveData
 
-    private var _readyToPlay = MutableLiveData<Boolean>()
+    private val _readyToPlay = MutableLiveData<Boolean>()
     val readyToPlay: LiveData<Boolean>
         get() {
-            if (!isLoaded) {
+            if (!_isLoaded) {
                 load()
             }
             return _readyToPlay
@@ -33,26 +35,31 @@ class VideoItemViewModel(
 
     private fun load() {
         _loadingStateLiveData.value = LoadingState.Loading
-        viewModelScope.launch {
+        _dataFetchJob = viewModelScope.launch {
             _videosRepository.getVideoForPost(_videoPostId)
                 .success {
                     _videoSource = UrlSource(it.url)
                     _videoPlayer.addListener(this@VideoItemViewModel)
                     _readyToPlay.value = _videoPlayer.state == VideoPlayerController.State.Idle
                 }
-                .error { _loadingStateLiveData.value = LoadingState.Error(ErrorCause.DATA) }
+                .error {
+                    _loadingStateLiveData.value = LoadingState.Error(ErrorCause.DATA)
+                }
         }
     }
 
     fun play() {
         _videoSource?.let {
+            _loadingStateLiveData.value = LoadingState.Loading
             _videoPlayer.play(it)
         }
     }
 
     fun stop() {
-        viewModelScope.cancel()
-        _videoPlayer.stop()
+        _dataFetchJob?.cancel()
+        if (_isPlayingCurrent) {
+            _videoPlayer.stop()
+        }
     }
 
     public override fun onCleared() {
@@ -61,22 +68,34 @@ class VideoItemViewModel(
     }
 
     override fun onStateChanged(urlSource: UrlSource, state: VideoPlayerController.State) {
-        if (urlSource != _videoSource) {
-            _readyToPlay.value = isLoaded && state == VideoPlayerController.State.Idle
+        _isPlayingCurrent = urlSource == _videoSource
+        if (!_isPlayingCurrent) {
+            _readyToPlay.value = _isLoaded && state == VideoPlayerController.State.Idle
             return
         }
         _readyToPlay.value = state == VideoPlayerController.State.Idle
-        _loadingStateLiveData.value = when (state) {
-            VideoPlayerController.State.Idle -> LoadingState.Loading
-            VideoPlayerController.State.Buffering -> LoadingState.Buffering
-            is VideoPlayerController.State.Error -> LoadingState.Error(ErrorCause.PLAYBACK)
-            else -> LoadingState.Ready
+        when (state) {
+            VideoPlayerController.State.Ready ->
+                _loadingStateLiveData.value = LoadingState.Ready
+            is VideoPlayerController.State.Error ->
+                _loadingStateLiveData.value = LoadingState.Error(ErrorCause.PLAYBACK)
+        }
+    }
+
+    fun pause() {
+        if (_isPlayingCurrent) {
+            _videoPlayer.pause()
+        }
+    }
+
+    fun resume() {
+        if (_isPlayingCurrent) {
+            _videoPlayer.resume()
         }
     }
 }
 
 sealed class LoadingState {
-    object Buffering : LoadingState()
     object Ready : LoadingState()
     object Loading : LoadingState()
     data class Error(val errorCause: ErrorCause) : LoadingState()

@@ -2,4 +2,4 @@ package olehakaminskyi.livestreamfails.domaininjection.videos
 
 import olehakaminskyi.livestreamfails.data.videos.injection.KoinDataVideoModules
 
-val KoinDomainVideoModules = KoinDataVideoModules
+val KoinDomainVideosModules = KoinDataVideoModules

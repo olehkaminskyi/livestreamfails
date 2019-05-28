@@ -1,7 +1,6 @@
 package olehakaminskyi.livestreamfails.remote.videos
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import olehakaminskyi.livestreamfails.domain.DataResult
 import olehakaminskyi.livestreamfails.domain.ErrorType
@@ -12,24 +11,25 @@ import org.jsoup.Jsoup
 import java.io.IOException
 
 interface RemoteVideosDataSource {
-    suspend fun getVideoUrlByPostId(postId: Long): DataResult<RemoteVideo>
+    suspend fun getVideoByPostId(postId: Long): DataResult<RemoteVideo>
 }
 
 internal class RemoteVideosDataSourceImpl : RemoteVideosDataSource {
-    override suspend fun getVideoUrlByPostId(postId: Long): DataResult<RemoteVideo> = withContext(Dispatchers.IO) {
-        val url = "${BaseRemoteDataSource.LIVESTREAMFAILS_URL}post/$postId"
-        try {
-            Jsoup.connect(url).timeout(BaseRemoteDataSource.TIMEOUT.toInt()).get()
-                .select("#video-$postId source")?.attr("src")
-                .let {
-                    if (it.isNullOrBlank()) {
-                        DataResult(ResultError(ErrorType.Unknown))
-                    } else {
-                        DataResult(RemoteVideo(it))
+    override suspend fun getVideoByPostId(postId: Long): DataResult<RemoteVideo> =
+        withContext(Dispatchers.IO) {
+            val url = "${BaseRemoteDataSource.LIVESTREAMFAILS_URL}post/$postId"
+            try {
+                Jsoup.connect(url).timeout(BaseRemoteDataSource.TIMEOUT.toInt()).get()
+                    .select("#video-$postId source")?.attr("src")
+                    .let {
+                        if (it.isNullOrBlank()) {
+                            DataResult(error = ResultError(ErrorType.Unknown))
+                        } else {
+                            DataResult(RemoteVideo(it))
+                        }
                     }
-                }
-        } catch (e: IOException) {
-            DataResult<RemoteVideo>(ResultError(ErrorType.NoConnection, e))
+            } catch (e: IOException) {
+                DataResult<RemoteVideo>(error = ResultError(ErrorType.NoConnection, e))
+            }
         }
-    }
 }

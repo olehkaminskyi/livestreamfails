@@ -8,6 +8,11 @@
         android:background="@color/video_background"
         android:layout_height="match_parent">
 
+    <View android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@color/divider"
+          app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/view"/>
+
     <com.google.android.exoplayer2.ui.PlayerView
             app:auto_show="true"
             app:surface_type="texture_view"
@@ -27,5 +32,27 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"/>
-
+    <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="@dimen/video_progress"
+            android:layout_height="@dimen/video_progress"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="@+id/videoThumbnail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/videoThumbnail"/>
+    <TextView
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:textColor="@color/divider"
+            android:id="@+id/errorText"
+            android:layout_width="0dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="@string/cannot_load_video"
+            tools:ignore="MissingConstraints"
+            android:layout_marginBottom="@dimen/offset_medium"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/offset_medium"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/offset_medium"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
